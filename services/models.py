@@ -30,3 +30,25 @@ class Script(models.Model):
         verbose_name = 'Script'
         verbose_name_plural = 'Scripts'
         ordering = ['script_title']
+
+
+class Package(models.Model):
+    title = models.CharField(max_length=150)
+    discount_price_per_month = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    regular_price_per_month = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    discount_price_per_year = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    regular_price_per_year = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    have_access_scripts_per_month = models.BooleanField(default=True)
+    access_scripts_per_month = models.IntegerField(default=0)
+    full_scripts_library_access = models.BooleanField(default=True)
+    downloadable_template = models.BooleanField(default=False)
+    ai_screept_generator = models.BooleanField(default=False)
+    
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Package'
+        verbose_name_plural = 'Packages'
+        ordering = ['title']
