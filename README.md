@@ -1,26 +1,33 @@
-# Basketball Project Setup Guide
+# 🧠 Viral Scripts Library
 
-Welcome to the Basketball project! This guide will help you set up the project on any device (Windows, macOS, or Linux).
+Welcome to the **Viral Scripts Library** project!  
+This is a Django-based web application where users can upload, manage, and explore viral scripts for various purposes.  
+This guide will help you set up and run the project on your local machine.
 
 ---
 
-##  Prerequisites
+## 📦 Prerequisites
 
-Make sure you have the following installed:
+Make sure you have the following installed on your system:
 
-- [Python 3.10.11](https://www.python.org/downloads/)
+- [Python 3.10.11+](https://www.python.org/downloads/)
 - [pip](https://pip.pypa.io/en/stable/)
 - [Git](https://git-scm.com/)
 
 ---
 
-## 🧱 Setup Instructions
+## ⚙️ Setup Instructions
+
+Follow the steps below to run the project locally:
 
 ### 1. Clone the Repository
 
-``` 
-git clone https://github.com/Sawjal-sikder/basketball.git
+```bash
 ```
+```[
+git clone https://github.com/Sawjal-sikder/viralscriptlibrary
+```
+
 ### 2. Create a Virtual Environment
 
 For Windows:
@@ -36,7 +43,7 @@ source venv/bin/activate
 ```
 Change Dir
 ```
-cd basketball
+cd viralscriptlibrary
 ```
 
 ### 3. Install Dependencies
