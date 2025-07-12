@@ -4,12 +4,14 @@ from django.views.static import serve
 from django.urls import re_path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.http import HttpResponseRedirect
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', lambda request: HttpResponseRedirect('/api/auth/register/')),
     path('api/', include('accounts.urls')),
     path('accounts/', include('allauth.urls')),
-    # path('api/services/', include('service.urls')),
+    path('api/services/', include('services.urls')),
 
 ]
 

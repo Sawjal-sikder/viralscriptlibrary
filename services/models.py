@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 class Hero(models.Model):
     title = models.CharField(max_length=150, blank=True, null=True, default="Hero title")
@@ -43,6 +45,7 @@ class Package(models.Model):
     full_scripts_library_access = models.BooleanField(default=True)
     downloadable_template = models.BooleanField(default=False)
     ai_screept_generator = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     
 
     def __str__(self):
@@ -52,3 +55,19 @@ class Package(models.Model):
         verbose_name = 'Package'
         verbose_name_plural = 'Packages'
         ordering = ['title']
+        
+        
+class Subscription(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    package = models.ForeignKey(Package, on_delete=models.CASCADE)
+    start_date = models.DateTimeField(auto_now_add=True)
+    end_date = models.DateTimeField(null=True, blank=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.user.email} - {self.package.title}"
+
+    class Meta:
+        verbose_name = 'Subscription'
+        verbose_name_plural = 'Subscriptions'
+        ordering = ['user']

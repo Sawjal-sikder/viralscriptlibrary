@@ -23,3 +23,9 @@ class PackageAdmin(admin.ModelAdmin):
     search_fields = ('title',)
     list_filter = ('have_access_scripts_per_month', 'full_scripts_library_access',
                    'downloadable_template', 'ai_screept_generator')
+    
+@admin.register(Subscription)
+class SubscriptionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'package', 'start_date', 'end_date')
+    # list_filter = ('start_date', 'end_date')
+
