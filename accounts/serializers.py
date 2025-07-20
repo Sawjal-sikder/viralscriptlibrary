@@ -8,6 +8,7 @@ from .models import PasswordResetCode
 User = get_user_model()
 from django.contrib.auth.password_validation import validate_password
 from .models import PasswordResetCode
+from .tasks import send_email_registration_otp
 
 
 
@@ -37,10 +38,17 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         # Generate and email verification code
         active_code = PasswordResetCode.objects.create(user=user)
-        user.email_user(
-            "Email Verification Code",
-            f"Your verification code is: {active_code.code}"
-        )
+        message = f"""
+            Dear User,
+            Thank you for registering with us!
+            To complete your registration, please use the following verification code:{active_code.code}
+            This code is valid for the next 2 minutes. Please do not share this code with anyone.
+            If you did not initiate this request, please ignore this email or contact support.
+
+            Best regards,              
+            """
+      
+        send_email_registration_otp.delay(user.email, message)
 
         return user
 
@@ -90,12 +98,21 @@ class ResendCodeSerializer(serializers.Serializer):
         # Create a new verification code
         reset_code = PasswordResetCode.objects.create(user=self.user)
 
-        # Send email
-        self.user.email_user(
-            subject="Resend Verification Code",
-            message=f"Your new verification code is: {reset_code.code}",
-        )
+        message = f"""
+        Dear User,
+        Thank you for registering with us!
+        To complete your registration, please use the following verification code: {reset_code.code}
+        This code is valid for the next 2 minutes. Please do not share this code with anyone.
+        If you did not initiate this request, please ignore this email or contact support.
+
+        Best regards,
+        """
+
+        # Corrected line
+        send_email_registration_otp.delay(self.user.email, message)
+
         return self.user
+
 
 
 
@@ -109,14 +126,23 @@ class PasswordResetCodeRequestSerializer(serializers.Serializer):
         return value
 
     def save(self):
-        user = User.objects.get(email=self.validated_data['email'])
-        reset_code = PasswordResetCode.objects.create(user=user)
-        user.email_user(
-            "Password Reset Code",
-            f"Your password reset code is: {reset_code.code}",
-        )
-        
-        
+        self.user = User.objects.get(email=self.validated_data['email'])
+        reset_code = PasswordResetCode.objects.create(user=self.user)
+
+        message = f"""
+        Dear User,
+        We received a request to reset your password.
+        Please use the following code to reset your password: {reset_code.code}
+        This code is valid for the next 2 minutes. Please do not share this code with anyone.
+        If you did not initiate this request, please ignore this email or contact support.
+
+        Best regards,
+        """
+
+        send_email_registration_otp.delay(self.user.email, message)
+
+        return self.user
+
 
 
 

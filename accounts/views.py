@@ -52,15 +52,6 @@ class RequestPasswordResetCodeView(generics.GenericAPIView):
         return Response({ "message": "We've sent a verification code to your registered email." }, status=status.HTTP_200_OK)
 
 
-# class VerifyResetCodeView(generics.GenericAPIView):
-#     serializer_class = VerifyResetCodeSerializer
-#     permission_classes = [permissions.AllowAny]
-
-#     def post(self, request, *args, **kwargs):
-#         serializer = self.get_serializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         return Response({"message": "Code verified. You can now reset your password."}, status=200)
-
 
 class SetNewPasswordView(generics.GenericAPIView):
     serializer_class = SetNewPasswordSerializer
