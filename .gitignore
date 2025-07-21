@@ -1,0 +1,61 @@
+# Django specific
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Environment variables
+.env
+.env.*
+
+# Media and static (optional — only if generated or should be excluded)
+media/
+staticfiles/
+static/
+
+# VSCode
+.vscode/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Python
+*.py[cod]
+*$py.class
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Pipenv
+Pipfile.lock
+
+# pytest
+.pytest_cache/
+.coverage
+
+# mypy
+.mypy_cache/
+
+# celery
+celerybeat-schedule
+celerybeat.pid
+
+# JetBrains (PyCharm etc.)
+.idea/
+
+# Coverage reports
+htmlcov/
+
+# Git
+.git/

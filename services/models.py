@@ -36,6 +36,9 @@ class Script(models.Model):
 
 class Package(models.Model):
     title = models.CharField(max_length=150)
+    stripe_product_id = models.CharField(max_length=255, blank=True, null=True)
+    stripe_monthly_price_id = models.CharField(max_length=255, blank=True, null=True)
+    stripe_yearly_price_id = models.CharField(max_length=255, blank=True, null=True)
     discount_price_per_month = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     regular_price_per_month = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     discount_price_per_year = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
@@ -55,6 +58,16 @@ class Package(models.Model):
         verbose_name = 'Package'
         verbose_name_plural = 'Packages'
         ordering = ['title']
+    
+    
+    def save(self, *args, **kwargs):
+        # Only create Stripe products on first creation and when prices are provided
+        creating = self.pk is None
+        super().save(*args, **kwargs)
+        
+        # We handle Stripe product creation in the serializer instead
+        # to have better error handling and validation
+        pass
         
         
 class Subscription(models.Model):
