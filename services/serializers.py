@@ -41,3 +41,18 @@ class PackageSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({"stripe": str(e)})
 
         return package
+    
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        # Update Stripe product and prices
+        from .utitls import create_stripe_product_and_prices
+        try:
+            create_stripe_product_and_prices(instance)
+        except Exception as e:
+            raise serializers.ValidationError({"stripe": str(e)})
+
+        return instance
+
